@@ -12,7 +12,7 @@ const sleep = async (ms: any) => {
   return new Promise((r) => setTimeout(r, ms));
 };
 
-const headerFirstColumnName = "accountId";
+const HEADER_FIRST_COLUMN_NAME = "accountId";
 
 const main = async () => {
   const fileName = process.argv[2];
@@ -25,7 +25,7 @@ const main = async () => {
     await sleep(1000);
     const splitCsvLine = line.split(",");
     // Header以外の行の場合に実行
-    if (splitCsvLine[0] !== headerFirstColumnName) {
+    if (splitCsvLine[0] !== HEADER_FIRST_COLUMN_NAME) {
       console.log(splitCsvLine);
       const iotPayload: IotPayload = {
         accountId: splitCsvLine[0],
