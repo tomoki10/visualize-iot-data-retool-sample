@@ -1,0 +1,40 @@
+import * as fs from "fs";
+import * as readline from "readline";
+import * as IotClient from "./helpers/iot/iot-client";
+
+interface IotPayload {
+  accountId: string;
+  createdAt: number;
+  value: string;
+}
+
+const sleep = async (ms: any) => {
+  return new Promise((r) => setTimeout(r, ms));
+};
+
+const headerFirstColumnName = "accountId";
+
+const main = async () => {
+  const fileName = process.argv[2];
+  const topicName = process.argv[3];
+  const stream = fs.createReadStream(fileName, "utf8");
+  const reader = readline.createInterface({
+    input: stream,
+  });
+  for await (const line of reader) {
+    await sleep(1000);
+    const splitCsvLine = line.split(",");
+    // Header以外の行の場合に実行
+    if (splitCsvLine[0] !== headerFirstColumnName) {
+      console.log(splitCsvLine);
+      const iotPayload: IotPayload = {
+        accountId: splitCsvLine[0],
+        createdAt: Number(splitCsvLine[1]),
+        value: splitCsvLine[2],
+      };
+      await IotClient.publish(topicName, iotPayload);
+    }
+  }
+};
+
+(async () => await main())();
