@@ -5,7 +5,8 @@ import * as IotClient from "./helpers/iot/iot-client";
 interface IotPayload {
   accountId: string;
   createdAt: number;
-  value: string;
+  date: string;
+  answer: string;
 }
 
 const sleep = async (ms: any) => {
@@ -22,7 +23,7 @@ const main = async () => {
     input: stream,
   });
   for await (const line of reader) {
-    await sleep(1000);
+    await sleep(500);
     const splitCsvLine = line.split(",");
     // Header以外の行の場合に実行
     if (splitCsvLine[0] !== HEADER_FIRST_COLUMN_NAME) {
@@ -30,7 +31,8 @@ const main = async () => {
       const iotPayload: IotPayload = {
         accountId: splitCsvLine[0],
         createdAt: Number(splitCsvLine[1]),
-        value: splitCsvLine[2],
+        date: splitCsvLine[2],
+        answer: splitCsvLine[3],
       };
       await IotClient.publish(topicName, iotPayload);
     }
