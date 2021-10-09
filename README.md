@@ -18,7 +18,7 @@ TBD
 
 https://github.com/remind101/assume-role
 
-### 環境変数の設定
+### IoT Rule にアクセスするための環境変数を設定
 
 送信したい AWS アカウントの IoT Core のエンドポイントを設定する。
 IoT Core のエンドポイント(カスタムエンドポイント)は以下の URL もしくは CLI コマンドで確認できます。
