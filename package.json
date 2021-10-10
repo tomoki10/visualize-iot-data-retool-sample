@@ -2,7 +2,7 @@
   "name": "retool_work",
   "version": "0.1.0",
   "bin": {
-    "retool_work": "bin/retool_work.js"
+    "retool_work": "bin/retool-work.js"
   },
   "scripts": {
     "build": "tsc",
